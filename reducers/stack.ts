@@ -8,13 +8,15 @@ type Action = {
   gestureState: any;
 };
 
+export type Item = {
+  name: string;
+  pile: "main" | "discarded";
+  bottomY: number;
+  intensity: number;
+};
+
 export type State = {
-  items: {
-    name: string;
-    pile: "main" | "discarded";
-    bottomY: number;
-    intensity: number;
-  }[];
+  items: Item[];
 };
 
 const INITIAL_ITEM_STATE = {
