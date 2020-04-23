@@ -1,20 +1,26 @@
+import { BlurView } from "expo-blur";
 import React, { useEffect, useRef } from "react";
-import { Animated, Easing, StyleSheet } from "react-native";
+import { Animated, Image, StyleSheet, View } from "react-native";
 import { useSelector, shallowEqual } from "react-redux";
 import * as R from "remeda";
 
 import type { State } from "../reducers";
 import type { SCENE_NAME } from "../scenes";
+import { backgrounds } from "../scenes";
 import screenSize from "../util/screenSize";
-import usePrevious from "./usePrevious";
+
+// import usePrevious from "./usePrevious";
+
+// const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
+
+const { screenWidth, screenHeight } = screenSize();
 
 type Props = { name: SCENE_NAME; children: React.ReactNode };
-
-const { screenHeight } = screenSize();
 
 export default function Scene({ name, children }: Props) {
   const top = useRef(new Animated.Value(0)).current;
   const bottom = useRef(new Animated.Value(0)).current;
+  const intensity = useRef(new Animated.Value(0)).current;
 
   const { pending, bottomY } = useSelector((state: State) => {
     return (
@@ -30,61 +36,50 @@ export default function Scene({ name, children }: Props) {
   // const prevEffect = usePrevious(transition.effect);
 
   useEffect(() => {
-    const nextTop = -bottomY; // Math.max(-bottomY, 0);
-    const nextBottom = bottomY; // Math.min(bottomY, 0);
+    const topValue = -bottomY; // Math.min(-bottomY, 0);
+    const bottomValue = bottomY; // Math.max(bottomY, 0);
     if (pending) {
-      top.setValue(nextTop);
-      bottom.setValue(nextBottom);
+      top.setValue(topValue);
+      bottom.setValue(bottomValue);
+      intensity.setValue(bottomValue);
     } else {
-      Animated.parallel([
-        Animated.spring(top, { toValue: nextTop, damping: 20 }),
-        Animated.spring(bottom, { toValue: nextBottom }),
-      ]).start();
+      const duration = 333;
+      Animated.parallel(
+        [
+          Animated.timing(top, { toValue: topValue, duration }),
+          Animated.timing(bottom, { toValue: bottomValue, duration }),
+          Animated.timing(intensity, { toValue: bottomValue, duration }),
+        ],
+        { stopTogether: false }
+      ).start();
     }
   }, [bottomY]);
 
-  // useEffect(() => {
-  //   if (prevEffect === "slideUp") {
-  //     const toValue = 0; //transition.dy;
-  //     // TODO: use timing animations
-  //     Animated.parallel([
-  //       Animated.spring(top, { toValue: Math.min(-toValue, 0), damping: 20 }),
-  //       Animated.spring(bottom, { toValue: Math.max(toValue, 0) }),
-  //     ]).start();
-  //   }
-  // }, [transition.effect]);
-
-  // const isActive = useSelector((state: State) => state.stack.current === name);
-  // const transitionDirection = useSelector(
-  //   (state: State) =>
-  //     isActive && state.stack.transition && state.stack.transition.direction
-  // );
-  // const transitionY = useSelector(
-  //   (state: State) =>
-  //     isActive && state.stack.transition && state.stack.transition.y
-  // );
-
-  // useEffect(() => {
-  //   if (!isActive || !transitionY) return;
-
-  //   // animation top
-  //   top.setValue(Math.min(transitionY, 0));
-  //   bottom.setValue(Math.max(-transitionY, 0));
-  // }, [transitionY]);
-
-  // useEffect(() => {
-  //   const toValue = isActive ? 0 : screenHeight;
-  //   Animated.parallel([
-  //     Animated.spring(top, { toValue: -toValue }),
-  //     Animated.spring(bottom, { toValue }),
-  //   ]).start();
-  // }, [transitionDirection]);
-
-  // console.log(name, isActive, transitionDirection, transitionY);
-
   return (
-    <Animated.View style={{ ...StyleSheet.absoluteFillObject, top, bottom }}>
+    <Animated.View
+      style={{
+        ...styles.container,
+        top,
+        bottom,
+        opacity: intensity.interpolate({
+          inputRange: [0, screenHeight],
+          outputRange: [1, 0],
+        }),
+      }}
+    >
+      <Image source={backgrounds[name]} style={{ ...styles.backgroundImage }} />
       {children}
     </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  backgroundImage: {
+    width: screenWidth,
+    height: screenHeight,
+    resizeMode: "cover",
+  },
+});

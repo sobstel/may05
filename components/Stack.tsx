@@ -3,7 +3,7 @@ import { PanResponder, StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 import * as R from "remeda";
 
-import { sceneNames, colors } from "../scenes";
+import { sceneNames } from "../scenes";
 import stackable from "./stackable";
 
 export default function Stack() {
@@ -33,7 +33,7 @@ export default function Stack() {
               style={[
                 styles.container,
                 {
-                  backgroundColor: colors[index],
+                  backgroundColor: "transparent",
                 },
               ]}
             />

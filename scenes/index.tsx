@@ -1,24 +1,21 @@
 // TODO: scene map
 
 export const sceneNames = [
-  "first",
-  "second",
-  "third",
-  "fourth",
-  "fifth",
-  "sixth",
-  "seventh",
+  "cero",
+  "primero",
+  "segundo",
+  "tercero",
+  "cuatro",
+  "quinto",
 ] as const;
 
 export type SCENE_NAME = typeof sceneNames[number];
 
-// TEMP
-export const colors = [
-  "#2c003e",
-  "#512b58",
-  "#ffa372",
-  "#ea9085",
-  "#222831",
-  "#30475e",
-  "#f2a365",
-];
+export const backgrounds = {
+  cero: require("../assets/bg/0.jpg"),
+  primero: require("../assets/bg/1.jpg"),
+  segundo: require("../assets/bg/2.jpg"),
+  tercero: require("../assets/bg/3.jpg"),
+  cuatro: require("../assets/bg/4.jpg"),
+  quinto: require("../assets/bg/5.jpg"),
+};
