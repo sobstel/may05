@@ -4,7 +4,8 @@ import { useSelector, shallowEqual } from "react-redux";
 
 import type { State } from "../reducers";
 import screenSize from "../util/screenSize";
-import { backgrounds } from "./scenes";
+import { SlideHint } from "./SlideHint";
+import { backgrounds, scenesCount } from "./scenes";
 
 const { screenWidth, screenHeight } = screenSize();
 
@@ -70,6 +71,8 @@ export function SceneContainer({ index, children }: Props) {
         source={backgrounds[index]}
         style={{ ...styles.backgroundImage }}
       />
+      {index > 0 && <SlideHint type="top" text="⇣" />}
+      {index < scenesCount - 1 && <SlideHint type="bottom" text="⇡" />}
       <View style={styles.contentContainer}>{children}</View>
     </Animated.View>
   );
