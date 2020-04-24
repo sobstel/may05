@@ -1,7 +1,7 @@
 import produce from "immer";
 import * as R from "remeda";
 
-import { scenesCount } from "../config/scenes";
+import { scenesCount } from "../components/scenes";
 import screenSize from "../util/screenSize";
 
 type GestureState = {

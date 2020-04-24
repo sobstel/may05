@@ -1,11 +1,35 @@
-import React from "react";
+import { AppLoading } from "expo";
+import { Asset } from "expo-asset";
+import React, { useState } from "react";
 import { StyleSheet, StatusBar, View } from "react-native";
 import { Provider } from "react-redux";
 
 import store from "../store";
 import Stack from "./Stack";
+import { backgrounds } from "./scenes/index";
+
+async function cacheResourcesAsync() {
+  return Promise.all(
+    backgrounds.map((background) =>
+      Asset.fromModule(background).downloadAsync()
+    )
+  );
+}
 
 export default function App() {
+  const [isReady, setReady] = useState(false);
+
+  if (!isReady) {
+    // TODO: handle error
+    return (
+      <AppLoading
+        startAsync={cacheResourcesAsync}
+        onFinish={() => setReady(true)}
+        onError={console.warn}
+      />
+    );
+  }
+
   return (
     <Provider store={store}>
       <View style={styles.container}>

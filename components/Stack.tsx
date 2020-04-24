@@ -3,8 +3,8 @@ import { PanResponder, StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 import * as R from "remeda";
 
-import scenes from "../config/scenes";
 import SceneContainer from "./SceneContainer";
+import scenes from "./scenes";
 
 export default function Stack() {
   const dispatch = useDispatch();

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import { Animated, Image, StyleSheet } from "react-native";
+import { Animated, Image, StyleSheet, View } from "react-native";
 import { useSelector, shallowEqual } from "react-redux";
 
-import { backgrounds } from "../config/scenes";
 import type { State } from "../reducers";
 import screenSize from "../util/screenSize";
+import { backgrounds } from "./scenes";
 
 const { screenWidth, screenHeight } = screenSize();
 
@@ -20,16 +20,16 @@ export default function SceneContainer({ index, children }: Props) {
 
   useEffect(() => {
     // TODO(?): avoid dragging outside boundary: Math.min(-bottomY, 0);
-    const bottomValue = bottomY;
+    const bottom = bottomY;
     if (pending) {
-      bottomAnim.setValue(bottomValue);
-      opacityAnim.setValue(bottomValue);
+      bottomAnim.setValue(bottom);
+      opacityAnim.setValue(bottom);
     } else {
       const duration = 333;
       Animated.parallel(
         [
-          Animated.timing(bottomAnim, { toValue: bottomValue, duration }),
-          Animated.timing(opacityAnim, { toValue: bottomValue, duration }),
+          Animated.timing(bottomAnim, { toValue: bottom, duration }),
+          Animated.timing(opacityAnim, { toValue: bottom, duration }),
         ],
         { stopTogether: false }
       ).start();
@@ -52,7 +52,7 @@ export default function SceneContainer({ index, children }: Props) {
         source={backgrounds[index]}
         style={{ ...styles.backgroundImage }}
       />
-      {children}
+      <View style={styles.contentContainer}>{children}</View>
     </Animated.View>
   );
 }
@@ -64,8 +64,14 @@ const styles = StyleSheet.create({
     height: screenHeight,
   },
   backgroundImage: {
+    position: "absolute",
     width: screenWidth,
     height: screenHeight,
     resizeMode: "cover",
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
