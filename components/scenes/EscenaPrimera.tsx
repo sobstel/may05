@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import { Button } from "./elements/Button";
-import { Container } from "./elements/Container";
+import { Button } from "../shared/Button";
+import { Container } from "../shared/Container";
 
 // TODO: useButtonSet
 

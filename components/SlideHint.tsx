@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import { Text } from "./scenes/elements/Text";
+import { Text } from "./shared/Text";
 
 type Props = { text: string; type: "top" | "bottom" };
 
