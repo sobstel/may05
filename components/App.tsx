@@ -6,14 +6,6 @@ import store from "../store";
 import Stack from "./Stack";
 
 export default function App() {
-  // const [animatedHeight] = useState(new Animated.Value(0)); // Initial value for opacity: 0
-
-  // useEffect(() => {
-  //   Animated.spring(animatedHeight, {
-  //     toValue: 100,
-  //   }).start();
-  // }, []);
-
   return (
     <Provider store={store}>
       <View style={styles.container}>

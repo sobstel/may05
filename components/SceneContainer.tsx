@@ -10,7 +10,7 @@ const { screenWidth, screenHeight } = screenSize();
 
 type Props = { index: number; children: React.ReactNode };
 
-export default function Scene({ index, children }: Props) {
+export default function SceneContainer({ index, children }: Props) {
   const bottomAnim = useRef(new Animated.Value(0)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
 
@@ -45,6 +45,7 @@ export default function Scene({ index, children }: Props) {
           inputRange: [0, screenHeight],
           outputRange: [1, 0],
         }),
+        zIndex: 100 - index,
       }}
     >
       <Image

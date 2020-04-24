@@ -1,10 +1,10 @@
+import React from "react";
 import { View } from "react-native";
 
-const scenes = [View, View, View, View, View, View];
+const scenes = [<View />, <View />, <View />, <View />, <View />, <View />];
+export default scenes;
 
 export const scenesCount = scenes.length;
-
-export default scenes;
 
 export const backgrounds = [
   require("../assets/bg/0.jpg"),

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import * as R from "remeda";
 
 import scenes from "../config/scenes";
-import stackable from "./stackable";
+import SceneContainer from "./SceneContainer";
 
 export default function Stack() {
   const dispatch = useDispatch();
@@ -23,24 +23,13 @@ export default function Stack() {
 
   return (
     <View style={styles.container} {...panResponder.panHandlers}>
-      {R.pipe(
-        scenes,
-        R.map.indexed((scene, index) => {
-          const NamedStackableView = stackable(index)(scene);
-          return (
-            <NamedStackableView
-              key={index}
-              style={[
-                styles.container,
-                {
-                  backgroundColor: "transparent",
-                },
-              ]}
-            />
-          );
-        }),
-        R.reverse()
-      )}
+      {R.map.indexed(scenes, (scene, index) => {
+        return (
+          <SceneContainer key={index} index={index}>
+            {scene}
+          </SceneContainer>
+        );
+      })}
     </View>
   );
 }
@@ -48,7 +37,5 @@ export default function Stack() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
-    height: "100%",
   },
 });
