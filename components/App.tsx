@@ -8,7 +8,7 @@ import store from "../store";
 import Stack from "./Stack";
 import { backgrounds } from "./scenes/index";
 
-async function cacheResourcesAsync() {
+function cacheResourcesAsync() {
   return Promise.all(
     backgrounds.map((background) =>
       Asset.fromModule(background).downloadAsync()
@@ -23,7 +23,7 @@ export default function App() {
     // TODO: handle error
     return (
       <AppLoading
-        startAsync={cacheResourcesAsync}
+        startAsync={(cacheResourcesAsync as unknown) as () => Promise<void>}
         onFinish={() => setReady(true)}
         onError={console.warn}
       />
