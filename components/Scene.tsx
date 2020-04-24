@@ -1,54 +1,35 @@
-import { BlurView } from "expo-blur";
 import React, { useEffect, useRef } from "react";
-import { Animated, Image, StyleSheet, View } from "react-native";
+import { Animated, Image, StyleSheet } from "react-native";
 import { useSelector, shallowEqual } from "react-redux";
-import * as R from "remeda";
 
+import { backgrounds } from "../config/scenes";
 import type { State } from "../reducers";
-import type { SCENE_NAME } from "../scenes";
-import { backgrounds } from "../scenes";
 import screenSize from "../util/screenSize";
-
-// import usePrevious from "./usePrevious";
-
-// const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const { screenWidth, screenHeight } = screenSize();
 
-type Props = { name: SCENE_NAME; children: React.ReactNode };
+type Props = { index: number; children: React.ReactNode };
 
-export default function Scene({ name, children }: Props) {
-  const top = useRef(new Animated.Value(0)).current;
-  const bottom = useRef(new Animated.Value(0)).current;
-  const intensity = useRef(new Animated.Value(0)).current;
+export default function Scene({ index, children }: Props) {
+  const bottomAnim = useRef(new Animated.Value(0)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
 
   const { pending, bottomY } = useSelector((state: State) => {
-    return (
-      R.find(state.stack.scenes, (scene) => scene.name === name) ?? {
-        name,
-        pending: false,
-        bottomY: 0,
-        intensity: 100,
-      }
-    );
+    return state.stack.scenes[index] || { pending: false, bottomY: 0 };
   }, shallowEqual);
 
-  // const prevEffect = usePrevious(transition.effect);
-
   useEffect(() => {
-    const topValue = -bottomY; // Math.min(-bottomY, 0);
-    const bottomValue = bottomY; // Math.max(bottomY, 0);
+    // TODO(?): avoid dragging outside boundary: Math.min(-bottomY, 0);
+    const bottomValue = bottomY;
     if (pending) {
-      top.setValue(topValue);
-      bottom.setValue(bottomValue);
-      intensity.setValue(bottomValue);
+      bottomAnim.setValue(bottomValue);
+      opacityAnim.setValue(bottomValue);
     } else {
       const duration = 333;
       Animated.parallel(
         [
-          Animated.timing(top, { toValue: topValue, duration }),
-          Animated.timing(bottom, { toValue: bottomValue, duration }),
-          Animated.timing(intensity, { toValue: bottomValue, duration }),
+          Animated.timing(bottomAnim, { toValue: bottomValue, duration }),
+          Animated.timing(opacityAnim, { toValue: bottomValue, duration }),
         ],
         { stopTogether: false }
       ).start();
@@ -59,15 +40,17 @@ export default function Scene({ name, children }: Props) {
     <Animated.View
       style={{
         ...styles.container,
-        top,
-        bottom,
-        opacity: intensity.interpolate({
+        bottom: bottomAnim,
+        opacity: opacityAnim.interpolate({
           inputRange: [0, screenHeight],
           outputRange: [1, 0],
         }),
       }}
     >
-      <Image source={backgrounds[name]} style={{ ...styles.backgroundImage }} />
+      <Image
+        source={backgrounds[index]}
+        style={{ ...styles.backgroundImage }}
+      />
       {children}
     </Animated.View>
   );
@@ -76,6 +59,8 @@ export default function Scene({ name, children }: Props) {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
+    top: "auto",
+    height: screenHeight,
   },
   backgroundImage: {
     width: screenWidth,

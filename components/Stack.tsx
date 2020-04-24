@@ -3,7 +3,7 @@ import { PanResponder, StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 import * as R from "remeda";
 
-import { sceneNames } from "../scenes";
+import scenes from "../config/scenes";
 import stackable from "./stackable";
 
 export default function Stack() {
@@ -24,12 +24,12 @@ export default function Stack() {
   return (
     <View style={styles.container} {...panResponder.panHandlers}>
       {R.pipe(
-        sceneNames,
-        R.map.indexed((name, index) => {
-          const NamedStackableView = stackable(name)(View);
+        scenes,
+        R.map.indexed((scene, index) => {
+          const NamedStackableView = stackable(index)(scene);
           return (
             <NamedStackableView
-              key={name}
+              key={index}
               style={[
                 styles.container,
                 {

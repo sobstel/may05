@@ -1,11 +1,10 @@
 import React from "react";
 
-import type { SCENE_NAME } from "../scenes";
 import Scene from "./Scene";
 
-export default function stackable(name: SCENE_NAME) {
+export default function stackable(index: number) {
   return (WrappedComponent: any) => (props: any) => (
-    <Scene name={name}>
+    <Scene index={index}>
       <WrappedComponent {...props} />
     </Scene>
   );

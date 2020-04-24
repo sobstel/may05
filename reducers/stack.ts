@@ -1,7 +1,7 @@
 import produce from "immer";
 import * as R from "remeda";
 
-import { SCENE_NAME, sceneNames } from "../scenes";
+import { scenesCount } from "../config/scenes";
 import screenSize from "../util/screenSize";
 
 type GestureState = {
@@ -18,12 +18,9 @@ type Action = {
 };
 
 export type State = {
-  // current: SCENE_NAME;
-  // transition: false | { direction: "up" | "down"; y: number };
   currentIndex: number;
   pendingTransition: false | "up" | "down";
   scenes: {
-    name: SCENE_NAME;
     pending: boolean;
     bottomY: number;
   }[];
@@ -32,22 +29,14 @@ export type State = {
 const { screenHeight } = screenSize();
 
 const INITIAL_STATE: State = {
-  // current: sceneNames[0],
-  // transition: false,
   currentIndex: 0,
   pendingTransition: false,
-  scenes: [
-    { name: "cero", pending: false, bottomY: 0 },
-    { name: "primero", pending: false, bottomY: 0 },
-    { name: "segundo", pending: false, bottomY: 0 },
-    { name: "tercero", pending: false, bottomY: 0 },
-    { name: "cuatro", pending: false, bottomY: 0 },
-    { name: "quinto", pending: false, bottomY: 0 },
-  ],
+  scenes: R.range(0, scenesCount).map(() => ({ pending: false, bottomY: 0 })),
 };
 
-const GRANT_ZONE_BUFFER = 30;
-const GRANT_ZONE_SIZE = 150;
+const GRANT_ZONE_BUFFER = Math.round(0.05 * screenHeight);
+const GRANT_ZONE_SIZE = Math.round(0.4 * screenHeight);
+const MOVE_THRESHOLD = Math.round(0.3 * screenHeight);
 
 export default function stackReducer(state = INITIAL_STATE, action: Action) {
   switch (action.type) {
@@ -123,7 +112,7 @@ export default function stackReducer(state = INITIAL_STATE, action: Action) {
 
       return produce(state, (nextState) => {
         if (nextState.pendingTransition === "up") {
-          if (-action.gestureState.dy > 0.33 * screenHeight) {
+          if (-action.gestureState.dy > MOVE_THRESHOLD) {
             nextState.scenes[nextState.currentIndex] = {
               ...nextState.scenes[nextState.currentIndex],
               pending: false,
@@ -141,7 +130,7 @@ export default function stackReducer(state = INITIAL_STATE, action: Action) {
         }
 
         if (nextState.pendingTransition === "down") {
-          if (action.gestureState.dy > 0.33 * screenHeight) {
+          if (action.gestureState.dy > MOVE_THRESHOLD) {
             nextState.scenes[nextState.currentIndex - 1] = {
               ...nextState.scenes[nextState.currentIndex - 1],
               pending: false,
