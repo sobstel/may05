@@ -22,7 +22,7 @@ export type State = {
   pendingTransition: false | "up" | "down";
   scenes: {
     pending: boolean;
-    bottomY: number;
+    bottom: number;
   }[];
 };
 
@@ -31,7 +31,7 @@ const { screenHeight } = screenSize();
 const INITIAL_STATE: State = {
   currentIndex: 0,
   pendingTransition: false,
-  scenes: R.range(0, scenesCount).map(() => ({ pending: false, bottomY: 0 })),
+  scenes: R.range(0, scenesCount).map(() => ({ pending: false, bottom: 0 })),
 };
 
 const GRANT_ZONE_BUFFER = Math.round(0.05 * screenHeight);
@@ -80,7 +80,7 @@ export default function stackReducer(state = INITIAL_STATE, action: Action) {
           nextState.scenes[nextState.currentIndex] = {
             ...nextState.scenes[nextState.currentIndex],
             pending: true,
-            bottomY: -action.gestureState.dy,
+            bottom: -action.gestureState.dy,
           };
           const nextIndex = nextState.currentIndex + 1;
           if (nextState.scenes[nextIndex]) {
@@ -95,7 +95,7 @@ export default function stackReducer(state = INITIAL_STATE, action: Action) {
             nextState.scenes[prevIndex] = {
               ...nextState.scenes[prevIndex],
               pending: true,
-              bottomY: screenHeight - action.gestureState.dy,
+              bottom: screenHeight - action.gestureState.dy,
             };
           }
           const currentIndex = nextState.currentIndex;
@@ -116,7 +116,7 @@ export default function stackReducer(state = INITIAL_STATE, action: Action) {
             nextState.scenes[nextState.currentIndex] = {
               ...nextState.scenes[nextState.currentIndex],
               pending: false,
-              bottomY: screenHeight,
+              bottom: screenHeight,
             };
 
             nextState.currentIndex += 1;
@@ -124,7 +124,7 @@ export default function stackReducer(state = INITIAL_STATE, action: Action) {
             nextState.scenes[nextState.currentIndex] = {
               ...nextState.scenes[nextState.currentIndex],
               pending: false,
-              bottomY: 0,
+              bottom: 0,
             };
           }
         }
@@ -134,7 +134,7 @@ export default function stackReducer(state = INITIAL_STATE, action: Action) {
             nextState.scenes[nextState.currentIndex - 1] = {
               ...nextState.scenes[nextState.currentIndex - 1],
               pending: false,
-              bottomY: 0,
+              bottom: 0,
             };
 
             nextState.currentIndex -= 1;
@@ -142,7 +142,7 @@ export default function stackReducer(state = INITIAL_STATE, action: Action) {
             nextState.scenes[nextState.currentIndex - 1] = {
               ...nextState.scenes[nextState.currentIndex - 1],
               pending: false,
-              bottomY: screenHeight,
+              bottom: screenHeight,
             };
           }
         }

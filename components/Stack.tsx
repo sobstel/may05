@@ -3,7 +3,7 @@ import { PanResponder, StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 import * as R from "remeda";
 
-import SceneContainer from "./SceneContainer";
+import { SceneContainer } from "./SceneContainer";
 import scenes from "./scenes";
 
 export default function Stack() {
@@ -37,5 +37,6 @@ export default function Stack() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#111",
   },
 });

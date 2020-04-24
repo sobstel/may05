@@ -10,31 +10,48 @@ const { screenWidth, screenHeight } = screenSize();
 
 type Props = { index: number; children: React.ReactNode };
 
-export default function SceneContainer({ index, children }: Props) {
+export function SceneContainer({ index, children }: Props) {
   const bottomAnim = useRef(new Animated.Value(0)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
 
-  const { pending, bottomY } = useSelector((state: State) => {
-    return state.stack.scenes[index] || { pending: false, bottomY: 0 };
+  const { pending, bottom } = useSelector((state: State) => {
+    return state.stack.scenes[index] || { pending: false, bottom: 0 };
   }, shallowEqual);
 
+  const { pending: prevPending, bottom: prevBottom } = useSelector(
+    (state: State) => {
+      return state.stack.scenes[index - 1] || { pending: false, bottom: 0 };
+    },
+    shallowEqual
+  );
+
   useEffect(() => {
-    // TODO(?): avoid dragging outside boundary: Math.min(-bottomY, 0);
-    const bottom = bottomY;
+    const nextBottom = Math.max(bottom, 0);
     if (pending) {
-      bottomAnim.setValue(bottom);
-      opacityAnim.setValue(bottom);
+      bottomAnim.setValue(nextBottom);
+      opacityAnim.setValue(nextBottom);
     } else {
       const duration = 333;
-      Animated.parallel(
-        [
-          Animated.timing(bottomAnim, { toValue: bottom, duration }),
-          Animated.timing(opacityAnim, { toValue: bottom, duration }),
-        ],
-        { stopTogether: false }
-      ).start();
+      Animated.parallel([
+        Animated.timing(bottomAnim, { toValue: nextBottom, duration }),
+        Animated.timing(opacityAnim, { toValue: nextBottom, duration }),
+      ]).start();
     }
-  }, [bottomY]);
+  }, [bottom]);
+
+  useEffect(() => {
+    if (index === 0) return;
+
+    const nextBottom = screenHeight - Math.max(prevBottom, 0);
+    if (prevPending) {
+      opacityAnim.setValue(nextBottom);
+    } else {
+      Animated.timing(opacityAnim, {
+        toValue: nextBottom,
+        duration: 333,
+      }).start();
+    }
+  }, [prevBottom]);
 
   return (
     <Animated.View
@@ -42,8 +59,9 @@ export default function SceneContainer({ index, children }: Props) {
         ...styles.container,
         bottom: bottomAnim,
         opacity: opacityAnim.interpolate({
-          inputRange: [0, screenHeight],
+          inputRange: [50, screenHeight - 50],
           outputRange: [1, 0],
+          extrapolate: "clamp",
         }),
         zIndex: 100 - index,
       }}
@@ -65,6 +83,7 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     position: "absolute",
+    bottom: 0,
     width: screenWidth,
     height: screenHeight,
     resizeMode: "cover",
