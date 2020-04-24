@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { StyleSheet, StatusBar, View } from "react-native";
 import { Provider } from "react-redux";
 
+import { backgrounds } from "../config";
 import store from "../store";
 import Stack from "./Stack";
-import { backgrounds } from "./scenes/index";
 
 function cacheResourcesAsync() {
   return Promise.all(

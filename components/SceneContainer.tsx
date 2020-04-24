@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from "react";
 import { Animated, Image, StyleSheet, View } from "react-native";
 import { useSelector, shallowEqual } from "react-redux";
 
+import { backgrounds, scenesCount } from "../config";
 import type { State } from "../reducers";
 import screenSize from "../util/screenSize";
 import { SlideHint } from "./SlideHint";
-import { backgrounds, scenesCount } from "./scenes";
 
 const { screenWidth, screenHeight } = screenSize();
 

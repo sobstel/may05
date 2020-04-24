@@ -13,15 +13,10 @@ export function Container({ children }: Props) {
 }
 
 const styles = StyleSheet.create({
-  // TODO: darker for text
   container: {
     width: "100%",
     paddingVertical: 25,
     backgroundColor: "rgba(0, 10, 0, 0.5)",
-    flexDirection: "column",
     alignItems: "center",
   },
-  // row: {
-  //   flexDirection: "row",
-  // },
 });

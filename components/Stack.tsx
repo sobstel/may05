@@ -3,8 +3,9 @@ import { PanResponder, StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 import * as R from "remeda";
 
+import { sceneStateKeys } from "../config";
 import { SceneContainer } from "./SceneContainer";
-import scenes from "./scenes";
+import { SceneContent } from "./SceneContent";
 
 export default function Stack() {
   const dispatch = useDispatch();
@@ -23,10 +24,10 @@ export default function Stack() {
 
   return (
     <View style={styles.container} {...panResponder.panHandlers}>
-      {R.map.indexed(scenes, (scene, index) => {
+      {R.map.indexed(sceneStateKeys, (stateKey, index) => {
         return (
           <SceneContainer key={index} index={index}>
-            {scene}
+            <SceneContent stateKey={stateKey} index={index} />
           </SceneContainer>
         );
       })}

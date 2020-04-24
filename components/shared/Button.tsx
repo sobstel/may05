@@ -1,10 +1,16 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-export function Button({ label }: { label: string }) {
+type Props = { title: string; onPress: any };
+
+export function Button({ title, onPress }: Props) {
   return (
-    <TouchableOpacity activeOpacity={0.5} style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+    <TouchableOpacity
+      activeOpacity={0.5}
+      style={styles.container}
+      onPress={onPress}
+    >
+      <Text style={styles.title}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -21,7 +27,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  label: {
+  title: {
     color: "#eee",
     fontWeight: "bold",
     fontSize: 18,

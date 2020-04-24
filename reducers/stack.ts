@@ -1,8 +1,17 @@
 import produce from "immer";
 import * as R from "remeda";
 
-import { scenesCount } from "../components/scenes";
+import { scenesCount } from "../config";
 import screenSize from "../util/screenSize";
+
+export type State = {
+  currentIndex: number;
+  pendingTransition: false | "up" | "down";
+  scenes: {
+    pending: boolean;
+    bottom: number;
+  }[];
+};
 
 type GestureState = {
   dy: number; // accumulated distance of the gesture since the touch started
@@ -17,15 +26,6 @@ type Action = {
   gestureState: GestureState;
 };
 
-export type State = {
-  currentIndex: number;
-  pendingTransition: false | "up" | "down";
-  scenes: {
-    pending: boolean;
-    bottom: number;
-  }[];
-};
-
 const { screenHeight } = screenSize();
 
 const INITIAL_STATE: State = {
@@ -33,12 +33,13 @@ const INITIAL_STATE: State = {
   pendingTransition: false,
   scenes: R.range(0, scenesCount).map(() => ({ pending: false, bottom: 0 })),
 };
+INITIAL_STATE.scenes[0].bottom = screenHeight;
 
 const GRANT_ZONE_BUFFER = Math.round(0.05 * screenHeight);
 const GRANT_ZONE_SIZE = Math.round(0.4 * screenHeight);
 const MOVE_THRESHOLD = Math.round(0.3 * screenHeight);
 
-export default function stackReducer(state = INITIAL_STATE, action: Action) {
+export function stackReducer(state = INITIAL_STATE, action: Action) {
   switch (action.type) {
     case "RESPONDER_GRANT": {
       if (state.pendingTransition) return state;
