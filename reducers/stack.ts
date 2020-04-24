@@ -1,7 +1,7 @@
 import produce from "immer";
 import * as R from "remeda";
 
-import { scenesCount } from "../config";
+import { SCENES_COUNT } from "../config";
 import screenSize from "../util/screenSize";
 
 export type State = {
@@ -31,9 +31,9 @@ const { screenHeight } = screenSize();
 const INITIAL_STATE: State = {
   currentIndex: 0,
   pendingTransition: false,
-  scenes: R.range(0, scenesCount).map(() => ({ pending: false, bottom: 0 })),
+  scenes: R.range(0, SCENES_COUNT).map(() => ({ pending: false, bottom: 0 })),
 };
-INITIAL_STATE.scenes[0].bottom = screenHeight;
+// INITIAL_STATE.scenes[0].bottom = screenHeight;
 
 const GRANT_ZONE_BUFFER = Math.round(0.05 * screenHeight);
 const GRANT_ZONE_SIZE = Math.round(0.4 * screenHeight);

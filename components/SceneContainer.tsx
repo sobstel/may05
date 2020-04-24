@@ -2,16 +2,17 @@ import React, { useEffect, useRef } from "react";
 import { Animated, Image, StyleSheet, View } from "react-native";
 import { useSelector, shallowEqual } from "react-redux";
 
-import { backgrounds, scenesCount } from "../config";
+import { backgrounds, SCENES_COUNT } from "../config";
 import type { State } from "../reducers";
 import screenSize from "../util/screenSize";
+import { Scene } from "./Scene";
 import { SlideHint } from "./SlideHint";
 
 const { screenWidth, screenHeight } = screenSize();
 
-type Props = { index: number; children: React.ReactNode };
+type Props = { index: number };
 
-export function SceneContainer({ index, children }: Props) {
+export function SceneContainer({ index }: Props) {
   const bottomAnim = useRef(new Animated.Value(0)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
 
@@ -72,8 +73,10 @@ export function SceneContainer({ index, children }: Props) {
         style={{ ...styles.backgroundImage }}
       />
       {index > 0 && <SlideHint type="top" text="⇣" />}
-      {index < scenesCount - 1 && <SlideHint type="bottom" text="⇡" />}
-      <View style={styles.contentContainer}>{children}</View>
+      {index < SCENES_COUNT - 1 && <SlideHint type="bottom" text="⇡" />}
+      <View style={styles.contentContainer}>
+        <Scene index={index} />
+      </View>
     </Animated.View>
   );
 }
