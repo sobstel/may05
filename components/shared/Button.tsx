@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   title: {
     color: "#eee",
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Avenir-Book",
   },
 });

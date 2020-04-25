@@ -4,6 +4,7 @@
     "slug": "viaje",
     "platforms": ["ios"],
     "version": "1.0.0",
+    "privacy": "public",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

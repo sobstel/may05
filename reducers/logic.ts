@@ -15,13 +15,12 @@ export type Action = {
 };
 
 const logics = [
-  quintoLogic,
   ceroLogic,
   primeroLogic,
   segundoLogic,
   terceroLogic,
   cuartoLogic,
-  // quintoLogic,
+  quintoLogic,
 ];
 
 const INITIAL_STATE = logics.map((logic) => logic.init());
