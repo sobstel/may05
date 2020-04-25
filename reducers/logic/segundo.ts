@@ -1,15 +1,5 @@
-import type { Logic, LogicState } from "../logic.d";
+import { createSequenceLogic } from "./createSequenceLogic";
 
-export const segundoLogic: Logic = {
-  init(): LogicState {
-    return [];
-  },
+const SEQUENCE = ["ॐ", "हं", "यं", "रं", "वं", "लं"];
 
-  apply(_values: LogicState, _index: number): LogicState {
-    return [];
-  },
-
-  solved(_values: LogicState): boolean {
-    return false;
-  },
-};
+export const segundoLogic = createSequenceLogic(SEQUENCE);

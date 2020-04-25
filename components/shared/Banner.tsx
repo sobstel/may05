@@ -12,7 +12,7 @@ export function Banner({ quote, hint }: Props) {
       <Text key="quote" style={styles.quote}>
         {quote}
       </Text>
-      {hint && (
+      {!!hint && (
         <Text key="hint" style={styles.hint}>
           {hint}
         </Text>

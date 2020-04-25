@@ -6,11 +6,12 @@ import { Button } from "./Button";
 
 type Props = { values: string[]; onPress: (i: number) => any };
 
-const ROW_SIZE = 4;
-
 export function ButtonSet({ values, onPress }: Props) {
+  const columnsCount = values.length == 6 || values.length === 9 ? 3 : 4;
+  const maxWidth = (56 + 2 * 8) * columnsCount;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { maxWidth }]}>
       {R.map.indexed(values, (value, index) => (
         <Button key={index} title={value} onPress={() => onPress(index)} />
       ))}
@@ -22,7 +23,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     flexWrap: "wrap",
-    maxWidth: (56 + 2 * 8) * ROW_SIZE,
     justifyContent: "center",
   },
 });
