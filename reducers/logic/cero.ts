@@ -5,7 +5,7 @@ export const ceroLogic: Logic = {
     return [];
   },
 
-  apply(_values: LogicState, _index: number) {
+  run(_values: LogicState, _index: number) {
     return [];
   },
 

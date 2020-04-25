@@ -25,8 +25,8 @@ const logics = [
 
 const INITIAL_STATE = logics.map((logic) => logic.init());
 
-function applyLogic(logic: Logic, logicState: LogicState, valueIndex: number) {
-  const values = logic.apply([...logicState], valueIndex);
+function runLogic(logic: Logic, logicState: LogicState, valueIndex: number) {
+  const values = logic.run([...logicState], valueIndex);
   if (logic.solved(values)) return [];
   return values;
 }
@@ -36,12 +36,13 @@ export function logicReducer(state: State = INITIAL_STATE, action: Action) {
     case "BUTTON_PRESSED": {
       return state.map((logicState, index) => {
         if (index === action.index) {
-          return applyLogic(logics[index], logicState, action.valueIndex);
+          return runLogic(logics[index], logicState, action.valueIndex);
         }
         return logicState;
       });
     }
+    default: {
+      return state;
+    }
   }
-
-  return state;
 }

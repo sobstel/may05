@@ -13,7 +13,7 @@ export function createSequenceLogic(
       return sequenceDraft.slice();
     },
 
-    apply(values: LogicState, index: number): LogicState {
+    run(values: LogicState, index: number): LogicState {
       const seqIndex = sequenceDraft.findIndex(
         (sign) => sign === values[index]
       );

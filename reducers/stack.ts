@@ -150,7 +150,8 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
         nextState.pendingTransition = false;
       });
     }
+    default: {
+      return state;
+    }
   }
-
-  return state;
 }

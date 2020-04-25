@@ -5,7 +5,7 @@ export const cuartoLogic: Logic = {
     return [];
   },
 
-  apply(_values: LogicState, _index: number): LogicState {
+  run(_values: LogicState, _index: number): LogicState {
     return [];
   },
 
