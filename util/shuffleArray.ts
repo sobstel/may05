@@ -4,7 +4,7 @@ import shuffle from "shuffle-array";
 export default function shuffleArray(array: any[]) {
   if (array.length === 0) return array;
 
-  const shuffledArray = array.slice();
+  const shuffledArray = [...array];
 
   do {
     shuffle(shuffledArray);

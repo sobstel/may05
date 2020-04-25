@@ -27,6 +27,7 @@ const INITIAL_STATE = logics.map((logic) => logic.init());
 
 function runLogic(logic: Logic, logicState: LogicState, valueIndex: number) {
   const values = logic.run([...logicState], valueIndex);
+  console.log(values);
   if (logic.solved(values)) return [];
   return values;
 }

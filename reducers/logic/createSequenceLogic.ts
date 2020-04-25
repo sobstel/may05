@@ -10,7 +10,7 @@ export function createSequenceLogic(
 
   return {
     init(): LogicState {
-      return sequenceDraft.slice();
+      return [...sequenceDraft];
     },
 
     run(values: LogicState, index: number): LogicState {

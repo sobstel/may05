@@ -13,7 +13,7 @@ export function Text(props: any) {
 const styles = StyleSheet.create({
   default: {
     color: "#eee",
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Avenir-Book",
     fontWeight: "bold",
   },

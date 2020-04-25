@@ -1,7 +1,3 @@
-import type { Logic, LogicState } from "../logic.d";
-
-// import { shallowEqual } from "react-redux";
-
 import { createSequenceLogic } from "./createSequenceLogic";
 
 const SEQUENCE = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -23,6 +19,6 @@ export const terceroLogic = {
     const sums = MAGIC_COLUMNS.map((row) =>
       row.reduce((acc, index) => acc + parseInt(values[index], 10), 0)
     );
-    return !sums.find((sum) => sum !== sums[0]);
+    return sums.every((sum) => sum === sums[0]);
   },
 };
