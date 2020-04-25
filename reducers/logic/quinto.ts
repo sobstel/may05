@@ -1,7 +1,6 @@
 import * as R from "remeda";
 
-import shuffleArray from "../../util/shuffleArray";
-import type { Logic, LogicState } from "../logic.d";
+import { createMemoryLogic } from "./createMemoryLogic";
 
 const ELEMENTS = [
   ["A", "B", "C", "D"],
@@ -10,37 +9,20 @@ const ELEMENTS = [
   ["α", "β", "γ", "δ"],
 ];
 const SEQUENCE = R.flatten(ELEMENTS);
-const SHUFFLED_SEQUENCE = shuffleArray(SEQUENCE);
 
-export const quintoLogic: Logic = {
-  init(): LogicState {
-    return [...SHUFFLED_SEQUENCE].map((_) => "");
-  },
-
-  run(values: LogicState, index: number): LogicState {
-    if (values[index] !== "") return values;
-
-    const visibleCount = values.filter((value) => value !== "").length;
-
-    // clean unmatched signs
+export const quintoLogic = createMemoryLogic(SEQUENCE, {
+  cleanUnmatched: (sequence, visibleCount) => {
     if (visibleCount % 4 === 0) {
-      values = values.map((value) => {
+      sequence = sequence.map((value) => {
         if (value === "") return value;
         const col = SEQUENCE.findIndex((v) => v === value) % 4;
         const allFound = ELEMENTS.every((row) =>
-          values.some((v) => row[col] === v)
+          sequence.some((v) => row[col] === v)
         );
         if (!allFound) return "";
         return value;
       });
     }
-
-    values[index] = SHUFFLED_SEQUENCE[index];
-
-    return values;
+    return sequence;
   },
-
-  solved(values: LogicState): boolean {
-    return values.every((value) => value !== "");
-  },
-};
+});

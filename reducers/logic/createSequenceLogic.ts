@@ -2,28 +2,30 @@ import { shallowEqual } from "react-redux";
 
 import type { Logic, LogicState } from "../logic.d";
 
+type Opts = { initializer?: (sequence: LogicState) => LogicState };
+
 export function createSequenceLogic(
   sequence: LogicState,
-  { initializer }: { initializer?: (sequence: LogicState) => LogicState }
+  { initializer }: Opts
 ): Logic {
-  const sequenceDraft = initializer ? initializer(sequence) : sequence;
+  const currentSequence = initializer ? initializer(sequence) : sequence;
 
   return {
     init(): LogicState {
-      return [...sequenceDraft];
+      return [...currentSequence];
     },
 
     run(values: LogicState, index: number): LogicState {
-      const seqIndex = sequenceDraft.findIndex(
+      const seqIndex = currentSequence.findIndex(
         (sign) => sign === values[index]
       );
 
       let nextSeqIndex = seqIndex + 1;
-      if (nextSeqIndex >= sequenceDraft.length) {
+      if (nextSeqIndex >= currentSequence.length) {
         nextSeqIndex = 0;
       }
 
-      values[index] = sequenceDraft[nextSeqIndex];
+      values[index] = currentSequence[nextSeqIndex];
       return values;
     },
 
