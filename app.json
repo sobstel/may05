@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "April Etheral",
-    "slug": "viaje",
+    "name": "May05",
+    "slug": "may05",
     "platforms": ["ios"],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "privacy": "public",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,12 +12,16 @@
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
+    "primaryColor": "#000000",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": false
-    }
+      "supportsTablet": false,
+      "bundleIdentifier": "org.sobstel.may05",
+      "buildNumber": "2"
+    },
+    "description": ""
   }
 }
