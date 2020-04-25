@@ -1,5 +1,4 @@
-import produce from "immer";
-
+import type { Logic, LogicState } from "./logic.d";
 import { ceroLogic } from "./logic/cero";
 import { cuartoLogic } from "./logic/cuarto";
 import { primeroLogic } from "./logic/primero";
@@ -7,7 +6,7 @@ import { quintoLogic } from "./logic/quinto";
 import { segundoLogic } from "./logic/segundo";
 import { terceroLogic } from "./logic/tercero";
 
-export type State = string[][];
+export type State = LogicState[];
 
 export type Action = {
   type: "BUTTON_PRESSED";
@@ -26,12 +25,20 @@ const logics = [
 
 const INITIAL_STATE = logics.map((logic) => logic.init());
 
+function applyLogic(logic: Logic, logicState: LogicState, valueIndex: number) {
+  const values = logic.apply([...logicState], valueIndex);
+  if (logic.solved(values)) return [];
+  return values;
+}
+
 export function logicReducer(state: State = INITIAL_STATE, action: Action) {
   switch (action.type) {
     case "BUTTON_PRESSED": {
-      return produce(state, (nextState) => {
-        const { index, valueIndex } = action;
-        logics[index].apply(nextState[index], valueIndex);
+      return state.map((logicState, index) => {
+        if (index === action.index) {
+          return applyLogic(logics[index], logicState, action.valueIndex);
+        }
+        return logicState;
       });
     }
   }

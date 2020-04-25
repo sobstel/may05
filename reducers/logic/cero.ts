@@ -1,9 +1,15 @@
-// import produce from "immer";
+import type { Logic, LogicState } from "../logic.d";
 
-export const ceroLogic = {
-  init() {
+export const ceroLogic: Logic = {
+  init(): LogicState {
     return [];
   },
 
-  apply(values: string[], index: number) {},
+  apply(_values: LogicState, _index: number) {
+    return [];
+  },
+
+  solved(_values: LogicState) {
+    return true;
+  },
 };

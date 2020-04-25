@@ -6,7 +6,7 @@ type Props = { title: string; onPress: any };
 export function Button({ title, onPress }: Props) {
   return (
     <TouchableOpacity
-      activeOpacity={0.5}
+      activeOpacity={0.6}
       style={styles.container}
       onPress={onPress}
     >
@@ -14,8 +14,6 @@ export function Button({ title, onPress }: Props) {
     </TouchableOpacity>
   );
 }
-
-// 2 * Math.round(underbust / 2);
 
 const styles = StyleSheet.create({
   container: {

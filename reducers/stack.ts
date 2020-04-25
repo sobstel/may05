@@ -33,7 +33,6 @@ const INITIAL_STATE: State = {
   pendingTransition: false,
   scenes: R.range(0, SCENES_COUNT).map(() => ({ pending: false, bottom: 0 })),
 };
-// INITIAL_STATE.scenes[0].bottom = screenHeight;
 
 const GRANT_ZONE_BUFFER = Math.round(0.05 * screenHeight);
 const GRANT_ZONE_SIZE = Math.round(0.4 * screenHeight);

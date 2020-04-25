@@ -1,7 +1,15 @@
-export const cuartoLogic = {
-  init() {
+import type { Logic, LogicState } from "../logic.d";
+
+export const cuartoLogic: Logic = {
+  init(): LogicState {
     return [];
   },
 
-  apply(values: string[], index: number) {},
+  apply(_values: LogicState, _index: number): LogicState {
+    return [];
+  },
+
+  solved(_values: LogicState): boolean {
+    return false;
+  },
 };

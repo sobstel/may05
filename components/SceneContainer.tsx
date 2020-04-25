@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { Animated, Image, StyleSheet, View } from "react-native";
 import { useSelector, shallowEqual } from "react-redux";
 
-import { backgrounds, SCENES_COUNT } from "../config";
+import backgrounds from "../assets/bg";
+import { SCENES_COUNT } from "../config";
 import type { State } from "../reducers";
 import screenSize from "../util/screenSize";
 import { Scene } from "./Scene";

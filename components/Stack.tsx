@@ -11,12 +11,12 @@ export default function Stack() {
 
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onPanResponderGrant: (evt, gestureState) =>
+      onMoveShouldSetPanResponder: (_evt, _gestureState) => true,
+      onPanResponderGrant: (_evt, gestureState) =>
         dispatch({ type: "RESPONDER_GRANT", gestureState }),
-      onPanResponderMove: (_, gestureState) =>
+      onPanResponderMove: (_evt, gestureState) =>
         dispatch({ type: "RESPONDER_MOVED", gestureState }),
-      onPanResponderRelease: (_, gestureState) =>
+      onPanResponderRelease: (_evt, gestureState) =>
         dispatch({ type: "RESPONDER_RELEASED", gestureState }),
     })
   ).current;

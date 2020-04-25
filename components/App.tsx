@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { StyleSheet, StatusBar, View } from "react-native";
 import { Provider } from "react-redux";
 
-import { backgrounds } from "../config";
+import backgrounds from "../assets/bg";
 import store from "../store";
 import Stack from "./Stack";
 
