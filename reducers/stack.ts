@@ -6,11 +6,12 @@ import screenSize from "../util/screenSize";
 
 export type State = {
   currentIndex: number;
-  pendingTransition: false | "up" | "down";
+  pendingTransition: false | "up" | "down" | "lastup" | "firstdown";
   scenes: {
     pending: boolean;
     bottom: number;
   }[];
+  dy: number;
 };
 
 type GestureState = {
@@ -32,6 +33,7 @@ const INITIAL_STATE: State = {
   currentIndex: 0,
   pendingTransition: false,
   scenes: R.range(0, SCENES_COUNT).map(() => ({ pending: false, bottom: 0 })),
+  dy: 0,
 };
 
 const GRANT_ZONE_BUFFER = Math.round(0.05 * screenHeight);
@@ -48,25 +50,25 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
 
       // TODO: move to some separate utility
       if (
-        state.currentIndex > 0 &&
         vy > 0 &&
         moveY > GRANT_ZONE_BUFFER &&
         moveY < GRANT_ZONE_BUFFER + GRANT_ZONE_SIZE
       ) {
         return produce(state, (nextState) => {
-          nextState.pendingTransition = "down";
+          nextState.pendingTransition =
+            state.currentIndex > 0 ? "down" : "firstdown";
         });
       }
 
       // TODO: move to some separate utility
       if (
-        state.currentIndex < state.scenes.length - 1 &&
         vy < 0 &&
         moveY < screenHeight - GRANT_ZONE_BUFFER &&
         moveY > screenHeight - GRANT_ZONE_BUFFER - GRANT_ZONE_SIZE
       ) {
         return produce(state, (nextState) => {
-          nextState.pendingTransition = "up";
+          nextState.pendingTransition =
+            state.currentIndex < state.scenes.length - 1 ? "up" : "lastup";
         });
       }
 
@@ -92,6 +94,13 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
               bottom: screenHeight - action.gestureState.dy,
             };
           }
+        }
+
+        if (nextState.pendingTransition === "firstdown") {
+          nextState.dy = action.gestureState.dy;
+        }
+        if (nextState.pendingTransition === "lastup") {
+          nextState.dy = action.gestureState.dy;
         }
       });
     }
@@ -133,6 +142,14 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
               bottom: screenHeight,
             };
           }
+        }
+
+        if (nextState.pendingTransition === "firstdown") {
+          nextState.dy = 0;
+        }
+
+        if (nextState.pendingTransition === "lastup") {
+          nextState.dy = 0;
         }
 
         nextState.pendingTransition = false;
