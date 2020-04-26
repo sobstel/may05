@@ -40,6 +40,19 @@ const GRANT_ZONE_BUFFER = Math.round(0.05 * screenHeight);
 const GRANT_ZONE_SIZE = Math.round(0.4 * screenHeight);
 const MOVE_THRESHOLD = Math.round(0.3 * screenHeight);
 
+function withinUpperZone(moveY: number) {
+  return (
+    moveY > GRANT_ZONE_BUFFER && moveY < GRANT_ZONE_BUFFER + GRANT_ZONE_SIZE
+  );
+}
+
+function withinLowerZone(moveY: number) {
+  return (
+    moveY < screenHeight - GRANT_ZONE_BUFFER &&
+    moveY > screenHeight - GRANT_ZONE_BUFFER - GRANT_ZONE_SIZE
+  );
+}
+
 export function stackReducer(state = INITIAL_STATE, action: Action) {
   switch (action.type) {
     case "RESPONDER_GRANT": {
@@ -48,24 +61,14 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
       const { numberActiveTouches, moveY, vy } = action.gestureState;
       if (numberActiveTouches !== 1) return state;
 
-      // TODO: move to some separate utility
-      if (
-        vy > 0 &&
-        moveY > GRANT_ZONE_BUFFER &&
-        moveY < GRANT_ZONE_BUFFER + GRANT_ZONE_SIZE
-      ) {
+      if (vy > 0 && withinUpperZone(moveY)) {
         return produce(state, (nextState) => {
           nextState.pendingTransition =
             state.currentIndex > 0 ? "down" : "firstdown";
         });
       }
 
-      // TODO: move to some separate utility
-      if (
-        vy < 0 &&
-        moveY < screenHeight - GRANT_ZONE_BUFFER &&
-        moveY > screenHeight - GRANT_ZONE_BUFFER - GRANT_ZONE_SIZE
-      ) {
+      if (vy < 0 && withinLowerZone(moveY)) {
         return produce(state, (nextState) => {
           nextState.pendingTransition =
             state.currentIndex < state.scenes.length - 1 ? "up" : "lastup";
@@ -74,6 +77,7 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
 
       return state;
     }
+
     case "RESPONDER_MOVED": {
       if (!state.pendingTransition) return state;
 
@@ -95,7 +99,6 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
             };
           }
         }
-
         if (nextState.pendingTransition === "firstdown") {
           nextState.dy = action.gestureState.dy;
         }
@@ -104,6 +107,7 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
         }
       });
     }
+
     case "RESPONDER_RELEASED": {
       if (!state.pendingTransition) return state;
 
@@ -125,7 +129,6 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
             };
           }
         }
-
         if (nextState.pendingTransition === "down") {
           if (action.gestureState.dy > MOVE_THRESHOLD) {
             nextState.scenes[nextState.currentIndex - 1] = {
@@ -143,11 +146,9 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
             };
           }
         }
-
         if (nextState.pendingTransition === "firstdown") {
           nextState.dy = 0;
         }
-
         if (nextState.pendingTransition === "lastup") {
           nextState.dy = 0;
         }
