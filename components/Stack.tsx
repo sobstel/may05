@@ -18,11 +18,12 @@ export default function Stack() {
       Animated.timing(bottomAnim, {
         toValue: 0,
         duration: 100,
+        useNativeDriver: true,
       }).start();
     } else {
       bottomAnim.setValue(
         // momentum scroll
-        -Math.sign(dy) * Math.round(Math.log2(Math.max(1, Math.abs(dy))) * 6)
+        Math.sign(dy) * Math.round(Math.log2(Math.max(1, Math.abs(dy))) * 6)
       );
     }
   }, [dy]);
@@ -41,7 +42,7 @@ export default function Stack() {
 
   return (
     <Animated.View
-      style={[styles.container, { bottom: bottomAnim }]}
+      style={[styles.container, { transform: [{ translateY: bottomAnim }] }]}
       {...panResponder.panHandlers}
     >
       {R.range(0, SCENES_COUNT).map((index) => (
