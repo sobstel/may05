@@ -10,7 +10,10 @@ Expo, React Native, Redux, Immer, Remeda, TypeScript
 
 ## How to run
 
-TODO (iOS -> TestFlight)
+_TODO_
+
+_If you want to play it and solve the puzzles, some knowledge about yoga, chakras,
+magic squares and memory games may be needed._
 
 ## Experiments
 
