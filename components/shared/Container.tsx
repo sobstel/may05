@@ -1,14 +1,19 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import * as Animatable from "react-native-animatable";
+import React, { useEffect, useRef } from "react";
+import { StyleSheet, Animated } from "react-native";
 
 type Props = { children: React.ReactNode };
 
 export function Container({ children }: Props) {
+  const fadeInAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeInAnim, { toValue: 1, duration: 500 }).start();
+  }, []);
+
   return (
-    <Animatable.View animation="fadeIn" style={styles.container}>
+    <Animated.View style={[styles.container, { opacity: fadeInAnim }]}>
       {children}
-    </Animatable.View>
+    </Animated.View>
   );
 }
 

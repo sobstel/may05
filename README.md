@@ -22,3 +22,4 @@ magic squares and memory games may be needed._
 - Using `Animated` directly (instead of `react-native-animatable` or similar)
 - Functional components only (react)
 - Redux state management using hooks only
+- Using `useRef` to store mutable value for the lifetime of the component
