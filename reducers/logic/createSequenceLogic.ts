@@ -1,14 +1,15 @@
 import { shallowEqual } from "react-redux";
 
+import shuffleArray from "../../util/shuffleArray";
 import type { Logic, LogicState } from "../logic.d";
 
-type Opts = { initializer?: (sequence: LogicState) => LogicState };
+type Opts = { shuffle: boolean }; // initializer?: (sequence: LogicState) => LogicState };
 
 export function createSequenceLogic(
   sequence: LogicState,
-  { initializer }: Opts
+  { shuffle }: Opts
 ): Logic {
-  const currentSequence = initializer ? initializer(sequence) : sequence;
+  const currentSequence = shuffle ? shuffleArray(sequence) : [...sequence];
 
   return {
     init(): LogicState {

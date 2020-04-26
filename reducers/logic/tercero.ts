@@ -13,7 +13,7 @@ const MAGIC_COLUMNS = [
 ];
 
 export const terceroLogic = {
-  ...createSequenceLogic(SEQUENCE, {}),
+  ...createSequenceLogic(SEQUENCE, { shuffle: false }),
   solved(values: string[]): boolean {
     const sums = MAGIC_COLUMNS.map((row) =>
       row.reduce((acc, index) => acc + parseInt(values[index], 10), 0)
