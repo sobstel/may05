@@ -7,6 +7,18 @@ import { SCENES_COUNT } from "../config";
 import type { State } from "../reducers";
 import { SceneContainer } from "./SceneContainer";
 
+function momentumMove(dy: number) {
+  return R.pipe(
+    dy,
+    Math.abs,
+    (v) => Math.max(1, v),
+    Math.log2,
+    (v) => v * 7,
+    Math.round,
+    (v) => Math.sign(dy) * v
+  );
+}
+
 export default function Stack() {
   const bottomAnim = useRef(new Animated.Value(0)).current;
 
@@ -21,10 +33,7 @@ export default function Stack() {
         useNativeDriver: true,
       }).start();
     } else {
-      bottomAnim.setValue(
-        // momentum scroll
-        Math.sign(dy) * Math.round(Math.log2(Math.max(1, Math.abs(dy))) * 6)
-      );
+      bottomAnim.setValue(Math.max(momentumMove(dy), 0));
     }
   }, [dy]);
 
