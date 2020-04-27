@@ -3,7 +3,7 @@
     "name": "May05",
     "slug": "may05",
     "platforms": ["ios"],
-    "version": "1.0.2",
+    "version": "1.0.3",
     "privacy": "public",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "org.sobstel.may05",
-      "buildNumber": "3"
+      "buildNumber": "5"
     },
     "description": ""
   }

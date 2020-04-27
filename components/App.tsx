@@ -9,11 +9,8 @@ import store from "../store";
 import Stack from "./Stack";
 
 async function cacheResourcesAsync() {
-  await Promise.all(
-    backgrounds.map((background) =>
-      Asset.fromModule(background).downloadAsync()
-    )
-  );
+  // preload only first one to avoid flickering of other backgrounds
+  await Asset.fromModule(backgrounds[0]).downloadAsync();
 }
 
 export function App() {
