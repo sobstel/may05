@@ -3,12 +3,13 @@
     "name": "May05",
     "slug": "may05",
     "platforms": ["ios"],
-    "version": "2020.05.05",
+    "version": "1.0.2",
     "privacy": "public",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "backgroundColor": "#000000"
+      "backgroundColor": "#000000",
+      "image": "./assets/splash.png"
     },
     "primaryColor": "#000000",
     "updates": {
@@ -18,7 +19,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "org.sobstel.may05",
-      "buildNumber": "1985"
+      "buildNumber": "3"
     },
     "description": ""
   }

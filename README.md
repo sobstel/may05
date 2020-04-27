@@ -12,6 +12,8 @@ Expo, React Native, Redux, Immer, Remeda, TypeScript
 
 _TODO_
 
+https://expo.io/@sobstel/may05
+
 _If you want to play it and solve the puzzles, some knowledge about yoga, chakras,
 magic squares and memory games may be needed._
 
