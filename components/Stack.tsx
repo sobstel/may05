@@ -8,14 +8,15 @@ import type { State } from "../reducers";
 import { SceneContainer } from "./SceneContainer";
 
 function momentumMove(dy: number) {
+  const { abs, max, log2, round, sign } = Math;
   return R.pipe(
     dy,
-    Math.abs,
-    (v) => Math.max(1, v),
-    Math.log2,
-    (v) => v * 7,
-    Math.round,
-    (v) => Math.sign(dy) * v
+    abs,
+    (value) => max(1, value),
+    log2,
+    (value) => value * 7,
+    round,
+    (value) => sign(dy) * value
   );
 }
 
