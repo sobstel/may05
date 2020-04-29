@@ -19,8 +19,9 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "org.sobstel.may05",
-      "buildNumber": "6"
+      "buildNumber": "7"
     },
-    "description": ""
+    "description": "",
+    "githubUrl": "http://github.com/sobstel/may05"
   }
 }
