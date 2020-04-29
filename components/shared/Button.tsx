@@ -3,6 +3,9 @@ import { StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
 
 type Props = { title: string; onPress: any };
 
+export const BUTTON_SIZE = 56;
+export const BUTTON_MARGIN = 8;
+
 export function Button({ title, onPress }: Props) {
   const containerStyle: ViewStyle[] = [styles.container];
   if (title === "") {
@@ -22,11 +25,11 @@ export function Button({ title, onPress }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 8,
-    width: 56,
-    height: 56,
+    margin: BUTTON_MARGIN,
+    width: BUTTON_SIZE,
+    height: BUTTON_SIZE,
     backgroundColor: "rgba(10, 10, 10, 0.7)",
-    borderRadius: 28,
+    borderRadius: Math.round(BUTTON_SIZE / 2),
     alignItems: "center",
     justifyContent: "center",
   },

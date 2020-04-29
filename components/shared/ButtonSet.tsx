@@ -2,16 +2,17 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import * as R from "remeda";
 
-import { Button } from "./Button";
+import { Button, BUTTON_SIZE, BUTTON_MARGIN } from "./Button";
 
 type Props = { values: string[]; onPress: (i: number) => any };
 
 export function ButtonSet({ values, onPress }: Props) {
+  // TODO: make it configurable via prop?
   let columnsCount = 4;
   if (values.length === 6) columnsCount = 1;
   if (values.length === 9) columnsCount = 3;
 
-  const maxWidth = (56 + 2 * 8) * columnsCount;
+  const maxWidth = (BUTTON_SIZE + 2 * BUTTON_MARGIN) * columnsCount;
 
   return (
     <View style={[styles.container, { maxWidth }]}>

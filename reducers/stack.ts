@@ -22,10 +22,12 @@ type GestureState = {
   numberActiveTouches: number; // number of touches currently on screen
 };
 
-type Action = {
-  type: "RESPONDER_GRANT" | "RESPONDER_MOVED" | "RESPONDER_RELEASED";
-  gestureState: GestureState;
-};
+type Action =
+  | {
+      type: "RESPONDER_GRANT" | "RESPONDER_MOVED" | "RESPONDER_RELEASED";
+      gestureState: GestureState;
+    }
+  | { type: "SLIDE_HINT_PRESSED"; hintType: "top" | "bottom" };
 
 const { screenHeight } = screenSize();
 
@@ -156,6 +158,26 @@ export function stackReducer(state = INITIAL_STATE, action: Action) {
         nextState.pendingTransition = false;
       });
     }
+
+    case "SLIDE_HINT_PRESSED": {
+      return produce(state, (nextState) => {
+        if (action.hintType === "bottom") {
+          nextState.scenes[nextState.currentIndex] = {
+            ...nextState.scenes[nextState.currentIndex],
+            bottom: screenHeight,
+          };
+          nextState.currentIndex += 1;
+        }
+        if (action.hintType === "top") {
+          nextState.scenes[nextState.currentIndex - 1] = {
+            ...nextState.scenes[nextState.currentIndex - 1],
+            bottom: 0,
+          };
+          nextState.currentIndex -= 1;
+        }
+      });
+    }
+
     default: {
       return state;
     }
