@@ -8,13 +8,18 @@ This is NOT a real published app. This is just a sort of playgroud to try variou
 
 Expo, React Native, Redux, Immer, Remeda, TypeScript
 
-## How to run
+## How to run (locally)
 
-_TODO_
+- `expo start`
+- Expo Dev Tools will open and you'll be able to run the app using iOS simulator,
+  Android/device emulator or your physical device.
 
-https://expo.io/@sobstel/may05
+## Preview
 
-_If you want to play it and solve the puzzles, some knowledge about yoga, chakras,
+- iOS: [https://testflight.apple.com/join/n5DpL3vA]
+- Android: [https://expo.io/@sobstel/may05]
+
+_If you want to play and solve the puzzles, some knowledge about yoga, chakras,
 magic squares and memory games may be needed._
 
 ## Experiments

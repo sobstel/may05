@@ -2,7 +2,7 @@
   "expo": {
     "name": "May05",
     "slug": "may05",
-    "platforms": ["ios"],
+    "platforms": ["ios", "android"],
     "version": "2020.05.05",
     "privacy": "public",
     "orientation": "portrait",
