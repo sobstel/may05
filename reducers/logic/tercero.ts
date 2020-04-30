@@ -1,3 +1,4 @@
+import type { Logic } from "../logic.d";
 import { createSequenceLogic } from "./createSequenceLogic";
 
 const SEQUENCE = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -12,7 +13,7 @@ const MAGIC_COLUMNS = [
   [2, 4, 6],
 ];
 
-export const terceroLogic = {
+export const terceroLogic: Logic = {
   ...createSequenceLogic(SEQUENCE, { shuffle: false }),
   solved(values: string[]): boolean {
     if (values.some((value) => values.indexOf(value) === -1)) {
