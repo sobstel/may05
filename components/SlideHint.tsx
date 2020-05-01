@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native";
 import { useDispatch } from "react-redux";
 
 import { Button } from "./shared/Button";
-// import { Text } from "./shared/Text";
 
 type Props = { text: string; type: "top" | "bottom" };
 

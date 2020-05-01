@@ -6,11 +6,3 @@ export const quotes: string[] = [
   "No seas bueno en algo, se bueno contigo mismo",
   "El viaje más largo es el viaje hacia adentro",
 ];
-export const hints: string[] = [
-  "",
-  "LOOK AT THE TALL BIRCH-TREE",
-  "BACK MAX",
-  "FORWARD 2M",
-  "RIGHT 3M",
-  "UP 2.5M",
-];
